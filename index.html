@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bookshelf Apps</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>Bookshelf Apps</h1>
+	</header>
+	<main>
+		<section id="inputArea">
+			<h2>Masukkan Data Buku</h2>
+			<form>
+				<label>Judul</label>
+				<input type="text" id="inputWriter">
+				<label>Penulis</label>
+				<input type="text" id="inputTitle">
+				<label>Tahun</label>
+				<input type="text" id="inputYears">
+				<div>
+					<label id="bookIsComplete">Selesai dibaca</label>
+					<input type="checkbox" id="bookIsComplete">
+				</div>
+				<button type="submit" id="submitBook">Masukkan buku ke dalam rak</button>
+			</form>
+		</section>
+		<section id="outputArea">
+			<section id="searchSection">
+				<label>Judul</label>
+				<input type="text" id="bookDataSearch" placeholder="Masukkan judul">
+				<button id="searchSubmit">Cari</button>
+			</section>
+			<section id="bookShelfContainer">
+				<section class="bookShelfArea" id="completedBookShelfArea">
+					<h3>Buku-buku Belum Dibaca </h3>
+					<div class="bookList">
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div><div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+					</div>
+				</section>
+				<section class="bookShelfArea" id="uncompletedBookShelfArea">
+					<h3>Buku-buku Selesai Dibaca</h3>
+					<div class="bookList">
+						<div class="book">
+							<h3>Harry Potter</h3>
+							<p>J.K Rowling</p>
+							<p>Tahun</p>
+						</div>
+					</div>
+					
+				</section>
+			</section>
+			
+		</section>
+	</main>
+</body>
+</html>

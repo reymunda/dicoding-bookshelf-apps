@@ -1,0 +1,74 @@
+body{
+	padding: 0;
+	margin: 0;
+}
+header{
+	height: 30px;
+}
+header h1{
+	font-size: 25px;
+	line-height: 15px;
+	text-align: center;
+}
+main{
+	display: flex;
+}
+section{
+	border: 1px solid black;
+}
+main section{
+
+}
+main #inputArea,main #inputArea form{
+	display: flex;
+	padding: 5px;
+	flex-direction: column;
+}
+main #inputArea{
+	width: 20%;
+	height: 91vh;
+}
+main #outputArea{
+	width: 80%;
+	padding: 10px;
+	height: 89.5vh;
+}
+main #searchSection{
+	height: 6%;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 0px;
+	margin-bottom: 10px;
+}
+main #searchSection label,main #searchSection button{
+	flex: 1;
+}
+main #searchSection input{
+	flex: 6;
+	margin: 0 10px;
+}
+main #outputArea #bookShelfContainer{
+	height: 92%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+main #outputArea #bookShelfContainer .bookShelfArea{
+	height: 48%;
+}
+main #outputArea #bookShelfContainer .bookShelfArea h3{
+	height: 5%;
+}
+main #outputArea #bookShelfContainer .bookShelfArea .bookList{
+	overflow-y: auto;
+	height: 80%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+main #outputArea #bookShelfContainer .bookShelfArea .bookList .book{
+	border: 1px solid black;
+	width: 150px;
+	height: 175px;
+	margin-bottom: 15px;
+}

@@ -1,4 +1,33 @@
-let edit;
+let edit,
+	searchField = document.querySelector('#bookDataSearch'),
+	searchKeyword,
+	searchButton = document.querySelector('#searchSubmit'),
+	uncompleteBooks = [],
+	completeBooks = []
+	
+const localUncompleteBooks = "UNCOMPLETE_BOOKS",
+	  localCompleteBooks = "COMPLETE_BOOKS"
+
+
+window.addEventListener('load',() =>{
+	if(typeof(Storage) !== "undefined"){
+		if(localStorage.getItem(localUncompleteBooks) === null){
+			localStorage.setItem(localUncompleteBooks,"")
+		}else{
+			uncompleteBooks = JSON.parse(localStorage.getItem(localUncompleteBooks))
+		}
+		if(localStorage.getItem(localCompleteBooks) === null){
+			localStorage.setItem(localCompleteBooks,"")
+		}else{
+			completeBooks = JSON.parse(localStorage.getItem(localCompleteBooks))
+		}
+	}else{
+		alert("You're using a browser that isn't support web storage")
+	}
+
+	renderBook()
+})
+
 const submitBook = () => {
 	if(edit === undefined){
 		addBook()
@@ -25,6 +54,8 @@ const submitBook = () => {
 			// 	completeButton.style.opacity = '100%'
 			// }
 			document.getElementById('warning').remove()
+
+			console.log(123)
 	}
 	
 	document.getElementById('inputTitle').value = ""
@@ -49,14 +80,20 @@ const addBook = () => {
 			year: year,
 			isCompleted: false
 		};
+
 		if(bookIsComplete.checked){
 			objectBook.isCompleted = true
+			completeBooks.push(objectBook)
+			localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
+		}else{
+			uncompleteBooks.push(objectBook)
+			localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
 		}
 		console.log('Have Submitted',objectBook)
-		makeBook(objectBook,objectBook.isCompleted)
+		makeBook(objectBook)		
 }
 
-const makeBook = (bookObject,isCompleted) => {
+const makeBook = (bookObject) => {
 	let uncompletedArea = document.querySelector('#uncompletedBookShelfArea .bookList'),
 		completedArea = document.querySelector('#completedBookShelfArea .bookList'),
 		divBook = document.createElement('div'),
@@ -105,18 +142,22 @@ const makeBook = (bookObject,isCompleted) => {
 	year.textContent = bookObject.year
 	divInfo.append(title,author,year)
 
-	if(isCompleted){
+	if(bookObject.isCompleted){
 		divButton.append(cancelButton,removeButton)
 		divBook.append(divEdit,divInfo,divButton)
 		completedArea.append(divBook)
+
 	}else{
 		divButton.append(completedButton,removeButton)
 		divBook.append(divEdit,divInfo,divButton)
 		uncompletedArea.append(divBook)
+		
 	}
+			console.log(123)
 
 }
 const removeBook = (e) => {
+	let = e.id
 	e.remove()
 	if(edit !== undefined){
 		if(e.id === edit.id){
@@ -128,6 +169,8 @@ const removeBook = (e) => {
 		document.getElementById('warning').remove()
 		}
 	}
+
+	console.log(e.isCompleted)
 	
 }
 
@@ -140,10 +183,11 @@ const cancelBook = (e) => {
 			id: +new Date(),
 			title : title,
 			author: author,
-			year: year
+			year: year,
+			isCompleted: false
 		}
 	
-	makeBook(bookObject,false)
+	makeBook(bookObject)
 	e.remove()
 }
 
@@ -156,10 +200,11 @@ const completeBook = (e) => {
 			id: e.id,
 			title : title,
 			author: author,
-			year: year
+			year: year,
+			isCompleted: true
 		}
 	
-	makeBook(bookObject,true)
+	makeBook(bookObject)
 	e.remove()
 
 } 
@@ -200,10 +245,56 @@ const editBook = (e) => {
 			id: e.id,
 			title : e.title,
 			author: e.author,
-			year: e.year
+			year: e.year,
+			isCompleted: e.isCompleted
 		}
-		
-		
-
 		console.log(edit)
 }
+
+const filterBook = () => {
+	let bookS = document.querySelectorAll('.book')
+		// titles = []
+
+		// titles = [...bookS].filter(book => {
+		// 	return book.childNodes[1].childNodes[0].innerText == searchKeyword
+		// })
+		
+		// console.log(titles)
+			bookS.forEach((e,i) => {
+				if(e.childNodes[1].childNodes[0].innerText == searchKeyword){
+					bookS[i].style.display = null
+				}else{
+					bookS[i].style.display = 'none'
+				}
+			})		
+}
+
+searchField.addEventListener('input',() => {
+	let bookS = document.querySelectorAll('.book')
+	searchKeyword = searchField.value
+	if(searchKeyword == ""){
+		bookS.forEach((e) => {
+			e.style.display = null
+		})
+	}
+})
+
+
+searchButton.addEventListener('click',() => {
+	filterBook()
+})
+
+const renderBook = () => {
+	const uncompletedArea = document.querySelector('#uncompletedBookShelfArea'),
+	      completedArea = document.querySelector('#completedBookShelfArea')
+
+	uncompleteBooks.forEach(book => {
+		makeBook(book)
+	})
+	completeBooks.forEach(book => {
+		makeBook(book)
+	})
+
+	console.log('tes')
+}
+

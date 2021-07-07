@@ -54,8 +54,6 @@ const submitBook = () => {
 			// 	completeButton.style.opacity = '100%'
 			// }
 			document.getElementById('warning').remove()
-
-			console.log(123)
 	}
 	
 	document.getElementById('inputTitle').value = ""
@@ -150,14 +148,10 @@ const makeBook = (bookObject) => {
 	}else{
 		divButton.append(completedButton,removeButton)
 		divBook.append(divEdit,divInfo,divButton)
-		uncompletedArea.append(divBook)
-		
+		uncompletedArea.append(divBook)	
 	}
-			console.log(123)
-
 }
 const removeBook = (e) => {
-	let = e.id
 	e.remove()
 	if(edit !== undefined){
 		if(e.id === edit.id){
@@ -170,8 +164,27 @@ const removeBook = (e) => {
 		}
 	}
 
-	console.log(e.isCompleted)
+	uncompleteBooks.forEach(book => {
+		let index = 0
+		if(e.id == book.id){
+			uncompleteBooks.splice(index,1)
+		}else{
+			index++
+		}
+	})
 	
+	completeBooks.forEach(book => {
+		let index = 0
+		if(e.id == book.id){
+			completeBooks.splice(index,1)
+		}else{
+			index++
+		}
+	})
+
+	localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
+	localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
+
 }
 
 const cancelBook = (e) => {
@@ -186,7 +199,6 @@ const cancelBook = (e) => {
 			year: year,
 			isCompleted: false
 		}
-	
 	makeBook(bookObject)
 	e.remove()
 }
@@ -294,7 +306,5 @@ const renderBook = () => {
 	completeBooks.forEach(book => {
 		makeBook(book)
 	})
-
-	console.log('tes')
 }
 

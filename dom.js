@@ -200,7 +200,21 @@ const cancelBook = (e) => {
 			isCompleted: false
 		}
 	makeBook(bookObject)
+	uncompleteBooks.push(bookObject)
+
+	localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
+
+	completeBooks.forEach(book => {
+		let index = 0
+		if(e.id == book.id){
+			completeBooks.splice(index,1)
+		}else{
+			index++
+		}
+	})
 	e.remove()
+	localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
+
 }
 
 const completeBook = (e) => {
@@ -217,8 +231,20 @@ const completeBook = (e) => {
 		}
 	
 	makeBook(bookObject)
-	e.remove()
+	completeBooks.push(bookObject)
 
+	localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
+
+	uncompleteBooks.forEach(book => {
+		let index = 0
+		if(e.id == book.id){
+			uncompleteBooks.splice(index,1)
+		}else{
+			index++
+		}
+	})
+	e.remove()
+	localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
 } 
 
 const editBook = (e) => {

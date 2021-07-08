@@ -8,7 +8,6 @@ let edit,
 const localUncompleteBooks = "UNCOMPLETE_BOOKS",
 	  localCompleteBooks = "COMPLETE_BOOKS"
 
-
 window.addEventListener('load',() =>{
 	if(typeof(Storage) !== "undefined"){
 		if(localStorage.getItem(localUncompleteBooks) === null){
@@ -24,7 +23,6 @@ window.addEventListener('load',() =>{
 	}else{
 		alert("You're using a browser that isn't support web storage")
 	}
-
 	renderBook()
 })
 
@@ -39,21 +37,43 @@ const submitBook = () => {
 			completeButton = id.querySelector('.completeButton'),
 			cancelButton = id.querySelector('.cancelButton')
 
-			title.innerText = document.getElementById('inputTitle').value
-			author.innerText = document.getElementById('inputAuthor').value
-			year.innerText = document.getElementById('inputYears').value
+		title.innerText = document.getElementById('inputTitle').value
+		author.innerText = document.getElementById('inputAuthor').value
+		year.innerText = document.getElementById('inputYears').value
 
-			console.log(id)
-			edit = undefined
-
-			// if(id.parentElement.parentElement.id === 'completedBookShelfArea'){
-			// 	cancelButton.removeAttribute('disabled')
-			// 	cancelButton.style.opacity = '100%'
-			// }else{
-			// 	completeButton.removeAttribute('disabled')
-			// 	completeButton.style.opacity = '100%'
-			// }
-			document.getElementById('warning').remove()
+		uncompleteBooks.forEach(book => {
+			let index = 0
+			if(edit.id == book.id){
+				uncompleteBooks[index] = {
+					id: edit.id,
+					title: title.innerText,
+					author: author.innerText,
+					year: year.innerText,
+					isCompleted: edit.isCompleted
+				}
+				localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
+			}else{
+				index++
+			}
+		})
+		completeBooks.forEach(book => {
+			let index = 0
+			if(edit.id == book.id){
+				completeBooks[index] =  {
+					id: edit.id,
+					title: title.innerText,
+					author: author.innerText,
+					year: year.innerText,
+					isCompleted: edit.isCompleted
+				}
+				localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
+			}else{
+				index++
+			}
+		})
+		edit = undefined
+		document.getElementById('warning').remove()
+		console.log(uncompleteBooks[0])
 	}
 	
 	document.getElementById('inputTitle').value = ""
@@ -134,7 +154,6 @@ const makeBook = (bookObject) => {
 		completeBook(e.target.parentElement.parentElement)
 	})
 
-	//Membuat book info
 	title.textContent = bookObject.title
 	author.textContent = bookObject.author
 	year.textContent = bookObject.year
@@ -154,14 +173,12 @@ const makeBook = (bookObject) => {
 const removeBook = (e) => {
 	e.remove()
 	if(edit !== undefined){
-		if(e.id === edit.id){
 		edit = undefined
 		document.getElementById('inputTitle').value = ""
 		document.getElementById('inputAuthor').value = ""
 		document.getElementById('inputYears').value = ""
 		document.getElementById('bookIsComplete').disabled = null
 		document.getElementById('warning').remove()
-		}
 	}
 
 	uncompleteBooks.forEach(book => {
@@ -193,7 +210,7 @@ const cancelBook = (e) => {
 		author = e.querySelectorAll('p')[0].innerText,
 		year = e.querySelectorAll('p')[1].innerText,
 		bookObject = {
-			id: +new Date(),
+			id: e.id,
 			title : title,
 			author: author,
 			year: year,
@@ -251,60 +268,47 @@ const editBook = (e) => {
 	let title = e.querySelector('h4').innerText,
 		author = e.querySelectorAll('p')[0].innerText,
 		year = e.querySelectorAll('p')[1].innerText,
-		completedButton = e.querySelector('.completeButton'),
-		cancelButton = e.querySelector('.cancelButton'),
-		editButton,
 		inputAreaH2 = document.querySelector('#inputArea form'),
 		warning
 
+	document.getElementById('inputTitle').value = title
+	document.getElementById('inputAuthor').value = author
+	document.getElementById('inputYears').value = year
+	document.getElementById('bookIsComplete').setAttribute('disabled','disabled')
 
-		document.getElementById('inputTitle').value = title
-		document.getElementById('inputAuthor').value = author
-		document.getElementById('inputYears').value = year
-		console.log(e)
-		document.getElementById('bookIsComplete').setAttribute('disabled','disabled')
-		// if(e.parentElement.parentElement.id === 'completedBookShelfArea'){
-		// 	cancelButton.setAttribute('disabled','disabled')
-		// 	cancelButton.style.opacity = '50%'
-		// }else{
-		// 	completedButton.setAttribute('disabled','disabled')
-		// 	completedButton.style.opacity = '50%'
-		// }
-		warning = document.createElement('label')
-		warning.textContent = 'Silakan selesaikan proses edit berikut!'
-		warning.id = ('warning')
-		warning.style.color = 'white'
-		warning.style.textAlign = 'center'
-		warning.style.backgroundColor = 'red'
-		if(edit === undefined){
-			inputAreaH2.insertBefore(warning,inputAreaH2.childNodes[0])
+	warning = document.createElement('label')
+	warning.textContent = 'Silakan selesaikan proses edit berikut!'
+	warning.id = ('warning')
+	warning.style.color = 'white'
+	warning.style.textAlign = 'center'
+	warning.style.backgroundColor = 'red'
+
+	if(edit === undefined){
+		inputAreaH2.insertBefore(warning,inputAreaH2.childNodes[0])
+	}
+
+	uncompleteBooks.forEach(book => {
+		if(e.id == book.id){
+			edit = book
 		}
-		edit = {
-			id: e.id,
-			title : e.title,
-			author: e.author,
-			year: e.year,
-			isCompleted: e.isCompleted
+	})
+	
+	completeBooks.forEach(book => {
+		if(e.id == book.id){
+			edit = book
 		}
-		console.log(edit)
+	})
 }
 
 const filterBook = () => {
 	let bookS = document.querySelectorAll('.book')
-		// titles = []
-
-		// titles = [...bookS].filter(book => {
-		// 	return book.childNodes[1].childNodes[0].innerText == searchKeyword
-		// })
-		
-		// console.log(titles)
-			bookS.forEach((e,i) => {
-				if(e.childNodes[1].childNodes[0].innerText == searchKeyword){
-					bookS[i].style.display = null
-				}else{
-					bookS[i].style.display = 'none'
-				}
-			})		
+	bookS.forEach((e,i) => {
+		if(e.childNodes[1].childNodes[0].innerText == searchKeyword){
+			bookS[i].style.display = null
+		}else{
+			bookS[i].style.display = 'none'
+		}
+	})		
 }
 
 searchField.addEventListener('input',() => {
@@ -333,4 +337,3 @@ const renderBook = () => {
 		makeBook(book)
 	})
 }
-

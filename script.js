@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded',function(){
 	let bookForm = document.getElementById('bookForm');
 

@@ -201,7 +201,7 @@ const removeBook = (e) => {
 
 	localStorage.setItem(localCompleteBooks,JSON.stringify(completeBooks))
 	localStorage.setItem(localUncompleteBooks,JSON.stringify(uncompleteBooks))
-
+	location.reload()
 }
 
 const cancelBook = (e) => {

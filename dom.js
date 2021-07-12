@@ -11,12 +11,12 @@ const localUncompleteBooks = "UNCOMPLETE_BOOKS",
 window.addEventListener('load',() =>{
 	if(typeof(Storage) !== "undefined"){
 		if(localStorage.getItem(localUncompleteBooks) === null){
-			localStorage.setItem(localUncompleteBooks,"")
+			localStorage.setItem(localUncompleteBooks,"[]")
 		}else{
 			uncompleteBooks = JSON.parse(localStorage.getItem(localUncompleteBooks))
 		}
 		if(localStorage.getItem(localCompleteBooks) === null){
-			localStorage.setItem(localCompleteBooks,"")
+			localStorage.setItem(localCompleteBooks,"[]")
 		}else{
 			completeBooks = JSON.parse(localStorage.getItem(localCompleteBooks))
 		}
